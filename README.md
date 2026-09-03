@@ -1,6 +1,7 @@
 # Image to PDF
 
-![App preview](./assets/app-preview.png)
+<img width="1407" height="794" alt="Screenshot 2026-09-03 at 14 53 14" src="https://github.com/user-attachments/assets/937c9dd9-9d64-4501-94c1-164c8d20205c" />
+
 
 A small web app: drop in images, reorder them, get back one PDF.
 
