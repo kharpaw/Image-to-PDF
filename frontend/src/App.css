@@ -9,7 +9,7 @@
   --pine-dark: #234639;
   --clay: #b3552f;
   --line: #ddd8ca;
-  --radius: 3px;
+  --radius: 30px;
 }
 
 * {
@@ -34,11 +34,11 @@ body {
 }
 
 .hero-kicker {
-  font-family: "Inter", sans-serif;
-  font-size: 13px;
+  font-family: "Source Serif 4", Georgia, sans-serif;
+  font-size: 18px;
   font-weight: 500;
   letter-spacing: 0.04em;
-  color: var(--pine);
+  color: var(--clay);
   margin: 0 0 14px;
 }
 
@@ -86,14 +86,15 @@ body {
 }
 
 .dropzone-title {
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 600;
   margin: 0 0 4px;
+  color: var(--ink);
 }
 
 .dropzone-sub {
   font-size: 14px;
-  color: var(--ink-soft);
+  color: var(--ink);
   margin: 0;
 }
 
