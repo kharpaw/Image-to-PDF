@@ -1,5 +1,7 @@
 # Image to PDF
 
+![App preview](./assets/app-preview.png)
+
 A small web app: drop in images, reorder them, get back one PDF.
 
 - **Backend**: Python (FastAPI + Pillow) — does the actual image → PDF conversion.
@@ -66,10 +68,4 @@ REACT_APP_API_URL=https://your-api.example.com npm start
 
 - The backend currently allows any origin (`allow_origins=["*"]`);
   restrict this to your real frontend domain before deploying.
-- Uploads are capped at 20MB per file / 50MB total — adjust the
-  `MAX_FILE_SIZE_MB` / `MAX_TOTAL_SIZE_MB` constants in `app.py` to taste.
-- Don't run `uvicorn --reload` in production. Instead run something like:
-  ```bash
-  uvicorn app:app --host 0.0.0.0 --port 5000 --workers 4
-  ```
-  and put nginx (or similar) in front for HTTPS and reverse-proxying.
+- Uploads are capped at 20MB per file / 50MB total
