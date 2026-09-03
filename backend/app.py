@@ -135,5 +135,5 @@ async def convert_images_to_pdf(
     return StreamingResponse(
         pdf_buffer,
         media_type="application/pdf",
-        headers={"Content-Disposition": "attachment; filename=document.pdf.pdf"},
+        headers={"Content-Disposition": "attachment; filename=document.pdf"},
     )
