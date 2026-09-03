@@ -36,7 +36,7 @@ def allowed_file(filename: str) -> bool:
 
 def fit_to_a4(img: Image.Image) -> Image.Image:
     """Place the image, centered, onto a white A4-proportioned canvas at 150 DPI."""
-    a4_px = (1240, 1754)  # A4 at 150 DPI
+    a4_px = (1654, 2339)  # A4 at 150 DPI
     canvas = Image.new("RGB", a4_px, (255, 255, 255))
 
     ratio = min(a4_px[0] / img.width, a4_px[1] / img.height)
@@ -64,7 +64,7 @@ async def convert_images_to_pdf(
     "fit" (default, each page matches its image) or "a4".
     """
     if not images:
-        return HTTPException(status_code=400, detail="No images were sent.")
+        raise HTTPException(status_code=400, detail="No images were sent.")
 
     total_bytes = 0
     pil_images = []
@@ -127,6 +127,8 @@ async def convert_images_to_pdf(
         format="PDF",
         save_all=True,
         append_images=remaining_images,
+        resolution=200.0,
+        quality=100, 
     )
     pdf_buffer.seek(0)
 
