@@ -153,7 +153,9 @@ export default function App() {
         <p className="dropzone-title">Drop images here</p>
         <p className="dropzone-sub">Click to browse — JPG, PNG, JPEG WEBP, HEIC</p>
       </section>
-
+      <footer className="made-by">
+        <p>Made by Pawan Kharel</p>
+      </footer>
       {items.length > 0 && (
         <section className="stack-panel">
           <div className="stack-panel-head">
