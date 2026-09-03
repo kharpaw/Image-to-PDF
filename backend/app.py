@@ -127,7 +127,7 @@ async def convert_images_to_pdf(
         format="PDF",
         save_all=True,
         append_images=remaining_images,
-        resolution=200.0,
+        resolution=300.0,
         quality=100, 
     )
     pdf_buffer.seek(0)
