@@ -151,7 +151,7 @@ export default function App() {
           </svg>
         </div>
         <p className="dropzone-title">Drop images here</p>
-        <p className="dropzone-sub">Click to browse — JPG, PNG, JPEG WEBP, HEIC</p>
+        <p className="dropzone-sub">Click to browse — JPG, PNG, JPEG WEBP, HEIC or any kinds of pictures.</p>
       </section>
       <footer className="made-by">
         <p>Made by Pawan Kharel</p>
