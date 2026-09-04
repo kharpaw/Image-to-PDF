@@ -235,7 +235,7 @@ export default function App() {
             <div className="result-card">
               <div>
                 <p className="result-title">Your PDF is ready</p>
-                <p className="result-sub">{items.length} page document</p>
+                <p className="result-sub">{items.length} Page Document</p>
               </div>
               <a className="download-button" href={pdfUrl} download="converted.pdf">
                 Download PDF
