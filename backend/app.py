@@ -17,7 +17,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp", "bmp", "gif", "tiff"}
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp", "bmp", "gif", "tiff", "heif"}
 MAX_FILE_SIZE_MB = 20
 MAX_TOTAL_SIZE_MB = 50
 
