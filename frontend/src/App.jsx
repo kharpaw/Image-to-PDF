@@ -316,7 +316,7 @@ export default function App() {
                     e.stopPropagation();
                     handleRemove(item.id);
                   }}
-                >
+                >fie
                   ×
                 </button>
               </li>
