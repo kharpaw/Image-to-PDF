@@ -333,7 +333,101 @@ body {
 .download-button:hover {
   background: var(--pine-dark);
 }
+/* Under footer */
+/* How it works */
 
+.how-it-works {
+  margin-top: 64px;
+  padding-top: 40px;
+  border-top: 1px solid var(--line);
+}
+
+.how-it-works-title {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-weight: 600;
+  font-size: 24px;
+  text-align: center;
+  margin: 0 0 36px;
+}
+
+.steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  max-width: 220px;
+}
+
+.step-icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #ece9e0;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-body {
+  position: relative;
+}
+
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--pine);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.step-body h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.step-body p {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.step-connector {
+  color: var(--line);
+  align-self: center;
+  margin-top: 18px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 720px) {
+  .steps {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+  .step {
+    max-width: none;
+  }
+  .step-connector {
+    display: none;
+  }
+}
 @media (max-width: 720px) {
   .hero {
     flex-direction: column;
