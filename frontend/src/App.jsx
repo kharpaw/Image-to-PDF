@@ -13,7 +13,7 @@ export default function App() {
   const [status, setStatus] = useState("idle"); // idle | converting | done | error
   const [errorMessage, setErrorMessage] = useState("");
   const [pdfUrl, setPdfUrl] = useState(null);
-  const dragIndex = useRef(null);
+  const [dragOverIndex, setDragOverIndex] = useState(null);
   const fileInputRef = useRef(null);
 
   const addFiles = useCallback((fileList) => {
@@ -45,38 +45,45 @@ export default function App() {
     setStatus("idle");
   };
 
-  // --- Reorder handlers (native HTML5 drag-and-drop, desktop only) ---
+  // --- Reorder handlers ---
+  // Reorder is only committed on drop (not continuously during drag),
+  // which avoids mutating the DOM mid-drag and breaking the native
+  // drag session — the source index is read from dataTransfer instead
+  // of a ref, so it stays reliable even across renders.
 
-  const handleReorderStart = (e, index) => {
-    console.log("drag start", index);
-    dragIndex.current = index;
-    // Firefox requires data to be set or the drag won't start at all
+  const handleThumbDragStart = (e, index) => {
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("text/plain", String(index));
   };
 
-  // Required: without preventDefault here, the element isn't
-  // considered a valid drop target and onDragEnter can misfire.
-  const handleReorderDragOver = (e) => {
+  const handleThumbDragOver = (e, index) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
+    if (dragOverIndex !== index) setDragOverIndex(index);
   };
 
-  const handleReorderEnter = (index) => {
-    console.log("drag enter", index, "dragIndex is", dragIndex.current);
-    if (dragIndex.current === null || dragIndex.current === index) return;
+  const handleThumbDragLeave = (index) => {
+    setDragOverIndex((current) => (current === index ? null : current));
+  };
+
+  const handleThumbDrop = (e, dropIndex) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragOverIndex(null);
+
+    const sourceIndex = Number(e.dataTransfer.getData("text/plain"));
+    if (Number.isNaN(sourceIndex) || sourceIndex === dropIndex) return;
+
     setItems((prev) => {
       const updated = [...prev];
-      const [moved] = updated.splice(dragIndex.current, 1);
-      updated.splice(index, 0, moved);
+      const [moved] = updated.splice(sourceIndex, 1);
+      updated.splice(dropIndex, 0, moved);
       return updated;
     });
-    dragIndex.current = index;
   };
 
-  const handleReorderEnd = () => {
-    console.log("drag end");
-    dragIndex.current = null;
+  const handleThumbDragEnd = () => {
+    setDragOverIndex(null);
   };
 
   const handleConvert = async () => {
@@ -321,12 +328,13 @@ export default function App() {
             {items.map((item, index) => (
               <li
                 key={item.id}
-                className="thumb"
+                className={`thumb ${dragOverIndex === index ? "thumb-drag-over" : ""}`}
                 draggable
-                onDragStart={(e) => handleReorderStart(e, index)}
-                onDragOver={handleReorderDragOver}
-                onDragEnter={() => handleReorderEnter(index)}
-                onDragEnd={handleReorderEnd}
+                onDragStart={(e) => handleThumbDragStart(e, index)}
+                onDragOver={(e) => handleThumbDragOver(e, index)}
+                onDragLeave={() => handleThumbDragLeave(index)}
+                onDrop={(e) => handleThumbDrop(e, index)}
+                onDragEnd={handleThumbDragEnd}
               >
                 <span className="thumb-index">{index + 1}</span>
                 <img
