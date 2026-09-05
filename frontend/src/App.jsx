@@ -283,7 +283,7 @@ export default function App() {
 </section>
 
       <footer className="made-by">
-        <p>Made by Pawan Kharel</p>
+        <p>Made by Pawan Kharel </p>
       </footer>
 
       {items.length > 0 && (
