@@ -45,11 +45,23 @@ export default function App() {
     setStatus("idle");
   };
 
-  const handleReorderStart = (index) => {
+  // --- Reorder handlers (native HTML5 drag-and-drop, desktop only) ---
+
+  const handleReorderStart = (e, index) => {
     dragIndex.current = index;
+    // Firefox requires data to be set or the drag won't start at all
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", String(index));
   };
 
-  const handleReorderOver = (index) => {
+  // Required: without preventDefault here, the element isn't
+  // considered a valid drop target and onDragEnter can misfire.
+  const handleReorderDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  };
+
+  const handleReorderEnter = (index) => {
     if (dragIndex.current === null || dragIndex.current === index) return;
     setItems((prev) => {
       const updated = [...prev];
@@ -58,6 +70,10 @@ export default function App() {
       return updated;
     });
     dragIndex.current = index;
+  };
+
+  const handleReorderEnd = () => {
+    dragIndex.current = null;
   };
 
   const handleConvert = async () => {
@@ -161,129 +177,130 @@ export default function App() {
         <p className="dropzone-title">Drop images here</p>
         <p className="dropzone-sub">Click to browse — JPG, PNG, JPEG WEBP, HEIC</p>
       </section>
+
       <section className="how-it-works">
-  <h2 className="how-it-works-title">How it works</h2>
-  <div className="steps">
-    <div className="step">
-      <div className="step-icon">
-        <svg viewBox="0 0 48 48" width="22" height="22">
-          <path
-            d="M24 6v24m0-24 9 9m-9-9-9 9"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M8 30v8a4 4 0 0 0 4 4h24a4 4 0 0 0 4-4v-8"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            fill="none"
-            strokeLinecap="round"
-          />
-        </svg>
-      </div>
-      <div className="step-body">
-        <span className="step-number">1</span>
-        <h3>Add your images</h3>
-        <p>Drop or select your images. We support JPG, PNG, WEBP, and HEIC.</p>
-      </div>
-    </div>
+        <h2 className="how-it-works-title">How it works</h2>
+        <div className="steps">
+          <div className="step">
+            <div className="step-icon">
+              <svg viewBox="0 0 48 48" width="22" height="22">
+                <path
+                  d="M24 6v24m0-24 9 9m-9-9-9 9"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M8 30v8a4 4 0 0 0 4 4h24a4 4 0 0 0 4-4v-8"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
+            <div className="step-body">
+              <span className="step-number">1</span>
+              <h3>Add your images</h3>
+              <p>Drop or select your images. We support JPG, PNG, WEBP, and HEIC.</p>
+            </div>
+          </div>
 
-    <div className="step-connector" aria-hidden="true">
-      <svg viewBox="0 0 80 20" width="80" height="20">
-        <path
-          d="M2 10 Q40 -6 78 10"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeDasharray="4 5"
-          fill="none"
-          strokeLinecap="round"
-        />
-        <path
-          d="M72 5 L78 10 L72 15"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </div>
+          <div className="step-connector" aria-hidden="true">
+            <svg viewBox="0 0 80 20" width="80" height="20">
+              <path
+                d="M2 10 Q40 -6 78 10"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeDasharray="4 5"
+                fill="none"
+                strokeLinecap="round"
+              />
+              <path
+                d="M72 5 L78 10 L72 15"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
 
-    <div className="step">
-      <div className="step-icon">
-        <svg viewBox="0 0 24 24" width="22" height="22">
-          <circle cx="5" cy="6" r="1.4" fill="currentColor" />
-          <circle cx="5" cy="12" r="1.4" fill="currentColor" />
-          <circle cx="5" cy="18" r="1.4" fill="currentColor" />
-          <path
-            d="M10 6h10M10 12h10M10 18h10"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        </svg>
-      </div>
-      <div className="step-body">
-        <span className="step-number">2</span>
-        <h3>Arrange the order</h3>
-        <p>Drag to reorder, rotate, or remove anything you don't need.</p>
-      </div>
-    </div>
+          <div className="step">
+            <div className="step-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22">
+                <circle cx="5" cy="6" r="1.4" fill="currentColor" />
+                <circle cx="5" cy="12" r="1.4" fill="currentColor" />
+                <circle cx="5" cy="18" r="1.4" fill="currentColor" />
+                <path
+                  d="M10 6h10M10 12h10M10 18h10"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
+            <div className="step-body">
+              <span className="step-number">2</span>
+              <h3>Arrange the order</h3>
+              <p>Drag to reorder, rotate, or remove anything you don't need.</p>
+            </div>
+          </div>
 
-    <div className="step-connector" aria-hidden="true">
-      <svg viewBox="0 0 80 20" width="80" height="20">
-        <path
-          d="M2 10 Q40 -6 78 10"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeDasharray="4 5"
-          fill="none"
-          strokeLinecap="round"
-        />
-        <path
-          d="M72 5 L78 10 L72 15"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </div>
+          <div className="step-connector" aria-hidden="true">
+            <svg viewBox="0 0 80 20" width="80" height="20">
+              <path
+                d="M2 10 Q40 -6 78 10"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeDasharray="4 5"
+                fill="none"
+                strokeLinecap="round"
+              />
+              <path
+                d="M72 5 L78 10 L72 15"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
 
-    <div className="step">
-      <div className="step-icon">
-        <svg viewBox="0 0 24 24" width="22" height="22">
-          <path
-            d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"
-            stroke="currentColor"
-            strokeWidth="1.6"
-            fill="none"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M14 3v4h4"
-            stroke="currentColor"
-            strokeWidth="1.6"
-            fill="none"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
-      <div className="step-body">
-        <span className="step-number">3</span>
-        <h3>Get your PDF</h3>
-        <p>We stack your images into a clean, high-quality PDF in seconds.</p>
-      </div>
-    </div>
-  </div>
-</section>
+          <div className="step">
+            <div className="step-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22">
+                <path
+                  d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  fill="none"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M14 3v4h4"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  fill="none"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <div className="step-body">
+              <span className="step-number">3</span>
+              <h3>Get your PDF</h3>
+              <p>We stack your images into a clean, high-quality PDF in seconds.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <footer className="made-by">
-        <p>Made by Pawan Kharel </p>
+        <p>Made by Pawan Kharel</p>
       </footer>
 
       {items.length > 0 && (
@@ -303,9 +320,10 @@ export default function App() {
                 key={item.id}
                 className="thumb"
                 draggable
-                onDragStart={() => handleReorderStart(index)}
-                onDragEnter={() => handleReorderOver(index)}
-                onDragEnd={() => (dragIndex.current = null)}
+                onDragStart={(e) => handleReorderStart(e, index)}
+                onDragOver={handleReorderDragOver}
+                onDragEnter={() => handleReorderEnter(index)}
+                onDragEnd={handleReorderEnd}
               >
                 <span className="thumb-index">{index + 1}</span>
                 <img src={item.previewUrl} alt={`Page ${index + 1}`} />
@@ -317,7 +335,7 @@ export default function App() {
                     handleRemove(item.id);
                   }}
                 >
-                ×
+                  ×
                 </button>
               </li>
             ))}
