@@ -100,17 +100,25 @@ export default function App() {
   return (
     <div className="page">
       <header className="hero">
-        <p className="hero-kicker">Image → PDF</p>
-        <h1>
-          Stack your photos.
-          <br />
-          Walk away with one PDF.
-        </h1>
-        <p className="hero-sub">
-          Drop in a handful of images, put them in order, and get back a
-          single document — nothing installed, nothing uploaded anywhere
-          permanent.
-        </p>
+        <div className="hero-text">
+          <p className="hero-kicker">Image → PDF</p>
+          <h1>
+            Stack your photos.
+            <br />
+            Walk away with one PDF.
+          </h1>
+          <p className="hero-sub">
+            Drop in a handful of images, put them in order, and get back a
+            single document — nothing installed, nothing uploaded anywhere
+            permanent.
+          </p>
+        </div>
+        <div className="hero-illustration">
+          <img
+            src="/assets/hero-illustration.png"
+            alt="A stack of photos transforming into a single PDF document"
+          />
+        </div>
       </header>
 
       <section
@@ -151,11 +159,13 @@ export default function App() {
           </svg>
         </div>
         <p className="dropzone-title">Drop images here</p>
-        <p className="dropzone-sub">Click to browse — JPG, PNG, JPEG WEBP, HEIC or any kinds of pictures.</p>
+        <p className="dropzone-sub">Click to browse — JPG, PNG, JPEG WEBP, HEIC</p>
       </section>
+
       <footer className="made-by">
         <p>Made by Pawan Kharel</p>
       </footer>
+
       {items.length > 0 && (
         <section className="stack-panel">
           <div className="stack-panel-head">
@@ -235,7 +245,7 @@ export default function App() {
             <div className="result-card">
               <div>
                 <p className="result-title">Your PDF is ready</p>
-                <p className="result-sub">{items.length} Page Document</p>
+                <p className="result-sub">{items.length} page document</p>
               </div>
               <a className="download-button" href={pdfUrl} download="converted.pdf">
                 Download PDF

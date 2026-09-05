@@ -24,13 +24,37 @@ body {
 }
 
 .page {
-  max-width: 760px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: 64px 24px 96px;
 }
 
 .hero {
   margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.hero-text {
+  flex: 1 1 380px;
+  min-width: 0;
+}
+
+.hero-illustration {
+  flex: 1 1 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-illustration img {
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+  display: block;
 }
 
 .hero-kicker {
@@ -308,6 +332,21 @@ body {
 
 .download-button:hover {
   background: var(--pine-dark);
+}
+
+@media (max-width: 720px) {
+  .hero {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+  }
+  .hero-illustration {
+    order: -1;
+  }
+  .hero-illustration img {
+    max-width: 280px;
+    margin: 0 auto;
+  }
 }
 
 @media (max-width: 480px) {
