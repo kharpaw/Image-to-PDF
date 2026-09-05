@@ -1,11 +1,3 @@
-"""
-
-
-Run locally:
-    pip install -r requirements.txt
-    uvicorn app:app --reload --port 5000
-"""
-
 import io
 from typing import List
 
@@ -46,11 +38,6 @@ def fit_to_a4(img: Image.Image) -> Image.Image:
     offset = ((a4_px[0] - new_size[0]) // 2, (a4_px[1] - new_size[1]) // 2)
     canvas.paste(resized, offset)
     return canvas
-
-
-@app.get("/health")
-def health():
-    return {"status": "ok"}
 
 
 @app.post("/convert")
