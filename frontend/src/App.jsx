@@ -48,6 +48,7 @@ export default function App() {
   // --- Reorder handlers (native HTML5 drag-and-drop, desktop only) ---
 
   const handleReorderStart = (e, index) => {
+    console.log("drag start", index);
     dragIndex.current = index;
     // Firefox requires data to be set or the drag won't start at all
     e.dataTransfer.effectAllowed = "move";
@@ -62,6 +63,7 @@ export default function App() {
   };
 
   const handleReorderEnter = (index) => {
+    console.log("drag enter", index, "dragIndex is", dragIndex.current);
     if (dragIndex.current === null || dragIndex.current === index) return;
     setItems((prev) => {
       const updated = [...prev];
@@ -73,6 +75,7 @@ export default function App() {
   };
 
   const handleReorderEnd = () => {
+    console.log("drag end");
     dragIndex.current = null;
   };
 
@@ -326,7 +329,11 @@ export default function App() {
                 onDragEnd={handleReorderEnd}
               >
                 <span className="thumb-index">{index + 1}</span>
-                <img src={item.previewUrl} alt={`Page ${index + 1}`} />
+                <img
+                  src={item.previewUrl}
+                  alt={`Page ${index + 1}`}
+                  draggable={false}
+                />
                 <button
                   className="thumb-remove"
                   aria-label={`Remove page ${index + 1}`}
